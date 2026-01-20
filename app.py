@@ -70,7 +70,7 @@ def format_years_display(y0, y1):
         return ""
     if y0 == y1:
         return f"{y0}"
-    return f"{y0} x {y1}"
+    return f"{y0} a {y1}"
 
 def format_years_list(years_list):
     return ", ".join(str(y) for y in years_list)
@@ -121,6 +121,60 @@ Compatível com os seguintes veículos:
 """
     return desc.strip()
 
+def build_meta_description(product, brand, model, y0, y1, years_list):
+    """
+    Meta description curta (SEO). Ideal ~ 140-160 caracteres, mas não precisa travar.
+    """
+    years_display = format_years_display(y0, y1)
+    if years_display:
+        base = f"{product} original usada para {brand} {model} ({years_display}). Peça revisada, envio rápido. Veja fotos e garanta na Wise Moto Parts."
+    else:
+        base = f"{product} original usada para {brand} {model}. Peça revisada, envio rápido. Veja fotos e garanta na Wise Moto Parts."
+    return normalize_spaces(base)
+
+def build_keywords(product, brand, model, y0, y1, years_list):
+    """
+    Gera palavras-chave/termos de busca (SEO).
+    Retorna uma lista em uma linha separada por vírgula.
+    """
+    product_clean = normalize_spaces(product)
+    brand_clean = normalize_spaces(brand)
+    model_clean = normalize_spaces(model)
+
+    variants = []
+
+    # Principais combinações
+    variants.append(f"{product_clean} {brand_clean} {model_clean}")
+    variants.append(f"{product_clean} {model_clean}")
+    variants.append(f"{product_clean} {brand_clean}")
+    variants.append(f"peça original {brand_clean} {model_clean}")
+    variants.append(f"{product_clean} original")
+    variants.append(f"{product_clean} usado")
+    variants.append(f"{product_clean} original usado")
+    variants.append(f"moto {brand_clean} {model_clean} peças")
+    variants.append(f"peças {brand_clean} {model_clean}")
+
+    # Anos (range e anos separados)
+    if y0 and y1:
+        variants.append(f"{product_clean} {brand_clean} {model_clean} {y0} {y1}")
+        variants.append(f"{product_clean} {model_clean} {y0} a {y1}")
+        if years_list:
+            # adiciona alguns anos individuais (todos pode ficar muito longo; mas dá pra deixar todos)
+            for y in years_list:
+                variants.append(f"{product_clean} {model_clean} {y}")
+
+    # Limpeza / dedupe mantendo ordem
+    seen = set()
+    out = []
+    for v in variants:
+        v2 = normalize_spaces(v)
+        key = v2.lower()
+        if v2 and key not in seen:
+            seen.add(key)
+            out.append(v2)
+
+    return ", ".join(out)
+
 # -------------------------
 # Interface
 # -------------------------
@@ -162,9 +216,19 @@ elif y0 and not y1:
     years_list = [int(y0)]
     y1 = y0
 
-if st.button("Gerar descrição"):
+if st.button("Gerar conteúdo"):
     if not product or not brand or not model:
         st.error("Preencha pelo menos: Nome do produto, Marca e Modelo.")
     else:
         description = build_description(product, brand, model, y0, y1, years_list, condition)
-        st.text_area("Descrição gerada (copiar e colar)", value=description, height=420)
+        meta = build_meta_description(product, brand, model, y0, y1, years_list)
+        keywords = build_keywords(product, brand, model, y0, y1, years_list)
+
+        st.subheader("Descrição")
+        st.text_area("Descrição gerada (copiar e colar)", value=description, height=380)
+
+        st.subheader("Meta-description")
+        st.text_area("Meta-description (SEO)", value=meta, height=90)
+
+        st.subheader("Palavras-chave (SEO)")
+        st.text_area("Palavras-chave para ranqueamento", value=keywords, height=140)
