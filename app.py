@@ -193,7 +193,7 @@ with right:
             border:1px solid #e6e6e6;
             padding:10px 12px;
             border-radius:10px;
-            background:#fafafa;
+            background:#000000;
             font-size:14px;
             ">
             <b>NCM:</b> 87141000<br>
