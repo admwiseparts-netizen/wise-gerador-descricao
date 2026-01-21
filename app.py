@@ -179,7 +179,30 @@ def build_keywords(product, brand, model, y0, y1, years_list):
 # Interface
 # -------------------------
 st.set_page_config(page_title="Wise Moto Parts - Gerador de Descrição", layout="centered")
-st.title("Wise Moto Parts — Gerador automático de descrição")
+# Topo com informações fixas (canto superior direito)
+left, right = st.columns([3, 1])
+
+with left:
+    st.title("Wise Moto Parts — Gerador automático de descrição")
+
+with right:
+    st.markdown(
+        """
+        <div style="
+            text-align:right;
+            border:1px solid #e6e6e6;
+            padding:10px 12px;
+            border-radius:10px;
+            background:#fafafa;
+            font-size:14px;
+            ">
+            <b>NCM:</b> 87141000<br>
+            <b>CEST:</b> 0107600
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
 
 default_title = "Acabamento Interno Direito Yamaha Ténéré 250 2011 a 2014"
 title = st.text_input("Cole o título do anúncio", value=default_title)
