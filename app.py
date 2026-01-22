@@ -178,7 +178,34 @@ def copy_block(label: str, text: str, key: str, height: int = 180):
           "
           onclick="navigator.clipboard.writeText(document.getElementById('ta-{key}').value)
             .then(() => {{
-              const b = document.getElementById('btn-{key}
+              const b = document.getElementById('btn-{key}');
+              const old = b.innerText;
+              b.innerText = 'Copiado ✓';
+              setTimeout(() => b.innerText = old, 1200);
+            }});"
+        >Copiar</button>
+      </div>
+
+      <textarea
+        id="ta-{key}"
+        readonly
+        style="
+          width:100%;
+          height:{height}px;
+          resize:vertical;
+          border-radius:10px;
+          border:1px solid #2b2b2b;
+          padding:12px;
+          font-size:13px;
+          line-height:1.4;
+          background:#000000;
+          color:#ffffff;
+          outline:none;
+        "
+      >{safe_text}</textarea>
+    </div>
+    """
+    components.html(html, height=height + 90)
 
 
 # ---------------- Interface ----------------
