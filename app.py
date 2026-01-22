@@ -210,9 +210,15 @@ def copy_block(label: str, text: str, key: str, height: int = 180):
 
 # ---------------- Interface ----------------
 st.set_page_config(page_title="Wise Moto Parts - Gerador", layout="centered")
-with right:
-    st.markdown("""
-
+st.markdown("""
+<style>
+html, body, [data-testid="stAppViewContainer"], .stApp {
+  background: #0f0f0f !important;
+  color: #ffffff !important;
+}
+[data-testid="stHeader"] { background: #0f0f0f !important; }
+</style>
+""", unsafe_allow_html=True)
 <style>
 /* Fundo geral */
 html, body, [data-testid="stAppViewContainer"], .stApp {
