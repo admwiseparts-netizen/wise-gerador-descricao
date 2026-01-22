@@ -212,11 +212,6 @@ def copy_block(label: str, text: str, key: str, height: int = 180):
 st.set_page_config(page_title="Wise Moto Parts - Gerador", layout="centered")
 with right:
     st.markdown("""
-    <div style="text-align:right; ...">
-      <b>NCM:</b> 87141000<br>
-      <b>CEST:</b> 0107600
-    </div>
-    """, unsafe_allow_html=True)
 
 <style>
 /* Fundo geral */
