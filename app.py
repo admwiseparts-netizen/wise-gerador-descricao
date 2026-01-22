@@ -176,7 +176,7 @@ def build_keywords(product, brand, model, y0, y1, years_list):
             out.append(v2)
 
     return ", ".join(out)
-  def copy_block(label: str, text: str, key: str, height: int = 180):
+    def copy_block(label: str, text: str, key: str, height: int = 180):
     """
     Renderiza um bloco com textarea (somente leitura) + botão Copiar.
     """
