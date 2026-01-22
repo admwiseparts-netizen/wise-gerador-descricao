@@ -215,12 +215,15 @@ left, right = st.columns([3, 1])
 with left:
     st.title("Wise Moto Parts — Gerador automático")
 with right:
-    st.markdown("""
-    <div style="text-align:right;border:1px solid #e6e6e6;padding:10px 12px;border-radius:10px;background:#fafafa;font-size:14px;">
-      <b>NCM:</b> 87141000<br>
-      <b>CEST:</b> 0107600
-    </div>
-    """, unsafe_allow_html=True)
+  st.markdown("""
+<style>
+html, body, [data-testid="stAppViewContainer"], .stApp {
+  background: #0f0f0f !important;
+  color: #ffffff !important;
+}
+[data-testid="stHeader"] { background: #0f0f0f !important; }
+</style>
+""", unsafe_allow_html=True)
 
 default_title = "Acabamento Interno Direito Yamaha Ténéré 250 2011 a 2014"
 title = st.text_input("Cole o título do anúncio", value=default_title)
