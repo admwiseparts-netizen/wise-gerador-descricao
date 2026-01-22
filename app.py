@@ -1,5 +1,7 @@
 import re
 import streamlit as st
+import streamlit.components.v1 as components
+
 
 BRANDS = [
     "YAMAHA", "HONDA", "KAWASAKI", "SUZUKI", "BMW", "DUCATI", "KTM",
@@ -174,6 +176,54 @@ def build_keywords(product, brand, model, y0, y1, years_list):
             out.append(v2)
 
     return ", ".join(out)
+    def copy_block(label: str, text: str, key: str, height: int = 180):
+    """
+    Renderiza um bloco com textarea (somente leitura) + botão Copiar.
+    """
+    safe_text = (text or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    html = f"""
+    <div style="border:1px solid #e6e6e6;border-radius:10px;padding:12px;background:#fafafa;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <div style="font-weight:600;font-size:14px;">{label}</div>
+        <button
+          id="btn-{key}"
+          style="
+            padding:6px 10px;
+            border-radius:8px;
+            border:1px solid #d0d0d0;
+            background:white;
+            cursor:pointer;
+            font-size:13px;
+          "
+          onclick="navigator.clipboard.writeText(document.getElementById('ta-{key}').value)
+            .then(() => {{
+              const b = document.getElementById('btn-{key}');
+              const old = b.innerText;
+              b.innerText = 'Copiado ✓';
+              setTimeout(() => b.innerText = old, 1200);
+            }});"
+        >Copiar</button>
+      </div>
+
+      <textarea
+        id="ta-{key}"
+        readonly
+        style="
+          width:100%;
+          height:{height}px;
+          resize:vertical;
+          border-radius:8px;
+          border:1px solid #e6e6e6;
+          padding:10px;
+          font-size:13px;
+          line-height:1.35;
+          background:white;
+        "
+      >{safe_text}</textarea>
+    </div>
+    """
+    components.html(html, height=height + 70)
+
 
 # -------------------------
 # Interface
@@ -247,11 +297,11 @@ if st.button("Gerar conteúdo"):
         meta = build_meta_description(product, brand, model, y0, y1, years_list)
         keywords = build_keywords(product, brand, model, y0, y1, years_list)
 
-        st.subheader("Descrição")
-        st.text_area("Descrição gerada (copiar e colar)", value=description, height=380)
+               st.subheader("Descrição")
+        copy_block("Descrição (Magazord)", description, key="desc", height=360)
 
         st.subheader("Meta-description")
-        st.text_area("Meta-description (SEO)", value=meta, height=90)
+        copy_block("Meta-description (SEO)", meta, key="meta", height=120)
 
         st.subheader("Palavras-chave (SEO)")
-        st.text_area("Palavras-chave para ranqueamento", value=keywords, height=140)
+        copy_block("Palavras-chave (SEO / Busca interna)", keywords, key="kw", height=160)
