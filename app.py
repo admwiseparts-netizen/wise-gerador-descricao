@@ -9,8 +9,10 @@ BRANDS = [
 
 YEAR_RE = re.compile(r"\b(19\d{2}|20\d{2})\b")
 
+
 def normalize_spaces(s: str) -> str:
     return re.sub(r"\s+", " ", (s or "").strip())
+
 
 def find_brand_index(tokens):
     up_tokens = [t.upper() for t in tokens]
@@ -18,9 +20,10 @@ def find_brand_index(tokens):
     for brand in brands_sorted:
         parts = brand.split()
         for i in range(len(up_tokens) - len(parts) + 1):
-            if up_tokens[i:i+len(parts)] == parts:
+            if up_tokens[i:i + len(parts)] == parts:
                 return i, brand
     return None, None
+
 
 def parse_years(text: str):
     years = [int(y) for y in YEAR_RE.findall(text)]
@@ -32,6 +35,7 @@ def parse_years(text: str):
         return y0, y0, [y0]
     y0, y1 = min(years), max(years)
     return y0, y1, list(range(y0, y1 + 1))
+
 
 def parse_title(title: str):
     raw = normalize_spaces(title)
@@ -65,6 +69,7 @@ def parse_title(title: str):
         "years_list": years_list
     }
 
+
 def format_years_display(y0, y1):
     if not y0:
         return ""
@@ -72,8 +77,10 @@ def format_years_display(y0, y1):
         return f"{y0}"
     return f"{y0} a {y1}"
 
+
 def format_years_list(years_list):
     return ", ".join(str(y) for y in years_list)
+
 
 def build_description(product, brand, model, y0, y1, years_list, condition_text):
     years_display = format_years_display(y0, y1)
@@ -121,6 +128,7 @@ Compatível com os seguintes veículos:
 """
     return desc.strip()
 
+
 def build_meta_description(product, brand, model, y0, y1):
     years_display = format_years_display(y0, y1)
     if years_display:
@@ -128,6 +136,7 @@ def build_meta_description(product, brand, model, y0, y1):
     else:
         base = f"{product} original usada para {brand} {model}. Envio rápido. Veja fotos e garanta na Wise Moto Parts."
     return normalize_spaces(base)
+
 
 def build_keywords(product, brand, model, y0, y1, years_list):
     product = normalize_spaces(product)
@@ -160,10 +169,11 @@ def build_keywords(product, brand, model, y0, y1, years_list):
 
     return ", ".join(out)
 
+
 # ---------------- Interface ----------------
 st.set_page_config(page_title="Wise Moto Parts - Gerador", layout="centered")
 
-# CSS Dark forte
+# CSS dark (garante fundo escuro e texto claro)
 st.markdown("""
 <style>
 html, body, [data-testid="stAppViewContainer"], .stApp {
@@ -171,22 +181,17 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   color: #ffffff !important;
 }
 [data-testid="stHeader"] { background: #0f0f0f !important; }
-[data-testid="stVerticalBlock"], [data-testid="stMainBlockContainer"] { background: #0f0f0f !important; }
-
-label, p, span, div { color: #ffffff !important; }
-
-input, textarea, select {
-  background: #111 !important;
-  color: #fff !important;
-  border: 1px solid #333 !important;
-}
+label, p, span { color: #ffffff !important; }
 </style>
 """, unsafe_allow_html=True)
 
 top_left, top_right = st.columns([3, 1])
 
 with top_left:
-    st.markdown("<h1 style='color:#ffffff;margin-bottom:0;'>Wise Moto Parts — Gerador automático</h1>", unsafe_allow_html=True)
+    st.markdown(
+        "<h1 style='color:#ffffff;margin-bottom:0;'>Wise Moto Parts — Gerador automático</h1>",
+        unsafe_allow_html=True
+    )
 
 with top_right:
     st.markdown("""
@@ -249,10 +254,10 @@ if st.button("Gerar conteúdo"):
         keywords = build_keywords(product, brand, model, y0, y1, years_list)
 
         st.markdown("## Descrição")
-        st.code(description, language="text")  # tem ícone de copiar
+        st.code(description, language="text")  # ícone de copiar nativo
 
         st.markdown("## Meta-description")
-        st.code(meta, language="text")  # tem ícone de copiar
+        st.code(meta, language="text")  # ícone de copiar nativo
 
         st.markdown("## Palavras-chave")
-        st.code(keywords, language="text")  # tem ícone de copiar
+        st.code(keywords, language="text")  # ícone de copiar nativo
