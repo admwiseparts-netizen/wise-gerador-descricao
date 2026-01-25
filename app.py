@@ -173,7 +173,6 @@ def build_keywords(product, brand, model, y0, y1, years_list):
 # ---------------- Interface ----------------
 st.set_page_config(page_title="Wise Moto Parts - Gerador", layout="centered")
 
-# CSS dark (garante fundo escuro e texto claro)
 st.markdown("""
 <style>
 html, body, [data-testid="stAppViewContainer"], .stApp {
@@ -188,10 +187,7 @@ label, p, span { color: #ffffff !important; }
 top_left, top_right = st.columns([3, 1])
 
 with top_left:
-    st.markdown(
-        "<h1 style='color:#ffffff;margin-bottom:0;'>Wise Moto Parts — Gerador automático</h1>",
-        unsafe_allow_html=True
-    )
+    st.markdown("<h1 style='color:#ffffff;margin-bottom:0;'>Wise Moto Parts — Gerador automático</h1>", unsafe_allow_html=True)
 
 with top_right:
     st.markdown("""
@@ -233,7 +229,6 @@ condition = st.selectbox(
     ]
 )
 
-# Reconstrói anos se editado manualmente
 years_list = []
 y0 = year_start if year_start != 0 else None
 y1 = year_end if year_end != 0 else None
@@ -254,10 +249,10 @@ if st.button("Gerar conteúdo"):
         keywords = build_keywords(product, brand, model, y0, y1, years_list)
 
         st.markdown("## Descrição")
-        st.code(description, language="text")  # ícone de copiar nativo
+        st.code(description, language="text")
 
         st.markdown("## Meta-description")
-        st.code(meta, language="text")  # ícone de copiar nativo
+        st.code(meta, language="text")
 
         st.markdown("## Palavras-chave")
-        st.code(keywords, language="text")  # ícone de copiar nativo
+        st.code(keywords, language="text")
