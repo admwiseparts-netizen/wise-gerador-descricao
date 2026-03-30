@@ -265,11 +265,11 @@ if st.button("Gerar conteúdo"):
         meta = build_meta_description(product, brand, model, y0, y1)
         keywords = build_keywords(product, brand, model, y0, y1, years_list)
 
-        st.markdown("## Descrição")
-        st.code(description, language="text")
+      st.markdown("## Palavras-chave")
+st.code(keywords, language="text")
 
-        st.markdown("## Meta-description")
-        st.code(meta, language="text")
+st.markdown("## Descrição")
+st.code(description, language="text")
 
-        st.markdown("## Palavras-chave")
-        st.code(keywords, language="text")
+st.markdown("## Meta-description")
+st.code(meta, language="text")
