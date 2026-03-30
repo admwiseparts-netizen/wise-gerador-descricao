@@ -224,16 +224,17 @@ with col2:
     year_end = st.number_input("Ano final (opcional)", value=parsed["year_end"] or 0, min_value=0, max_value=2100)
 
 condition = st.selectbox(
-    original = st.radio(
-    "Produto é ORIGINAL?",
-    ["Sim", "Não"]
-)
     "Condição",
     [
         "Produto bom: Produto usado em condições de uso.",
         "Produto com detalhe: Produto usado com pequenas avarias.",
         "Produto novo: Produto novo/sem uso."
     ]
+)
+
+original = st.radio(
+    "Produto é ORIGINAL?",
+    ["Sim", "Não"]
 )
 
 years_list = []
