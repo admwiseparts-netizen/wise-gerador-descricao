@@ -82,10 +82,12 @@ def format_years_list(years_list):
     return ", ".join(str(y) for y in years_list)
 
 
-def build_description(product, brand, model, y0, y1, years_list, condition_text):
+def build_description(product, brand, model, y0, y1, years_list, condition_text, is_original):
     years_display = format_years_display(y0, y1)
 
-    item_line = f"01 {product.upper()} - {brand.upper()} - {model.upper()}"
+    original_text = " ORIGINAL" if is_original else ""
+
+item_line = f"01 {product.upper()}{original_text} - {brand.upper()} - {model.upper()}"
     if years_display:
         item_line += f" ( {years_display} )"
 
@@ -221,6 +223,10 @@ with col2:
     year_end = st.number_input("Ano final (opcional)", value=parsed["year_end"] or 0, min_value=0, max_value=2100)
 
 condition = st.selectbox(
+    original = st.radio(
+    "Produto é ORIGINAL?",
+    ["Sim", "Não"]
+)
     "Condição",
     [
         "Produto bom: Produto usado em condições de uso.",
@@ -244,7 +250,16 @@ if st.button("Gerar conteúdo"):
     if not product or not brand or not model:
         st.error("Preencha pelo menos: Nome do produto, Marca e Modelo.")
     else:
-        description = build_description(product, brand, model, y0, y1, years_list, condition)
+        description = build_description(
+    product,
+    brand,
+    model,
+    y0,
+    y1,
+    years_list,
+    condition,
+    original == "Sim"
+)
         meta = build_meta_description(product, brand, model, y0, y1)
         keywords = build_keywords(product, brand, model, y0, y1, years_list)
 
