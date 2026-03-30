@@ -252,24 +252,15 @@ if st.button("Gerar conteúdo"):
     if not product or not brand or not model:
         st.error("Preencha pelo menos: Nome do produto, Marca e Modelo.")
     else:
-        description = build_description(
-    product,
-    brand,
-    model,
-    y0,
-    y1,
-    years_list,
-    condition,
-    original == "Sim"
-)
+        description = build_description(product, brand, model, y0, y1, years_list, condition, original == "Sim")
         meta = build_meta_description(product, brand, model, y0, y1)
         keywords = build_keywords(product, brand, model, y0, y1, years_list)
 
-      st.markdown("## Palavras-chave")
-st.code(keywords, language="text")
+        st.markdown("## Palavras-chave")
+        st.code(keywords, language="text")
 
-st.markdown("## Descrição")
-st.code(description, language="text")
+        st.markdown("## Descrição")
+        st.code(description, language="text")
 
-st.markdown("## Meta-description")
-st.code(meta, language="text")
+        st.markdown("## Meta-description")
+        st.code(meta, language="text")
