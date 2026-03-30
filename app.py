@@ -87,7 +87,8 @@ def build_description(product, brand, model, y0, y1, years_list, condition_text,
 
     original_text = " ORIGINAL" if is_original else ""
 
-item_line = f"01 {product.upper()}{original_text} - {brand.upper()} - {model.upper()}"
+    item_line = f"01 {product.upper()}{original_text} - {brand.upper()} - {model.upper()}"
+
     if years_display:
         item_line += f" ( {years_display} )"
 
